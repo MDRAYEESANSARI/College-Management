@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Sign-Up</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your existing CSS file -->
+</head>
+<body>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "Kumbh Sans", sans-serif;
+            color: #6e6e6e;
+        }
+        body {
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            width: 100vw;
+            height: 100vh;
+            gap: 4.375rem;
+        }
+        body img {
+            width: 50%;
+        }
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+        .main input,
+        .main select {
+            width: 17.6875rem;
+            border-radius: .6875rem;
+            background-color: #ece6f0;
+            font-size: 1.25rem;
+            border: 1px solid #cca7e4;
+            padding: .75rem;
+        }
+        .main button {
+            cursor: pointer;
+            width: 6.25rem;
+            border-radius: .6875rem;
+            font-size: 1.25rem;
+            border: 1px solid #cca7e4;
+            padding: .3125rem;
+            background-color: #ff3cac;
+            background-image: linear-gradient(
+                225deg,
+                #ff3cac 0%,
+                #784ba0 50%,
+                #2b86c5 100%
+            );
+            color: white;
+        }
+        .main p, .main p a {
+            color: #007FFF;
+            cursor: pointer;
+        }
+        .form-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .form-group input, .form-group select {
+            width: 17rem;
+            padding: .75rem;
+            border: 1px solid #cca7e4;
+            border-radius: .6875rem;
+            background-color: #ece6f0;
+            font-size: 1.25rem;
+        }
+        .form-group input::placeholder,
+        .form-group select option {
+            color: #6e6e6e;
+        }
+        #x{
+            width: 18.5rem;
+        }
+        .logo img{
+            width: 50%;
+        }
+    </style>
+    <div class="logo">
+        <img src="logo.png" alt="">
+    </div>
+    <div class="main">
+        <form id="signup-form" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="text" id="name" name="name" placeholder="Full Name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" id="email" name="email" placeholder="Email Address" required>
+            </div>
+            <div class="form-group">
+                <input type="tel" id="phone" name="phone" placeholder="Phone Number" required>
+            </div>
+            <div class="form-group">
+                <input type="file" id="profile-photo" name="profile-photo" accept="image/*" required>
+            </div>
+            <div class="form-group">
+                <select id="department" name="department" required>
+                    <option value="" disabled selected>Select Department</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Mechanical">Mechanical</option>
+                    <option value="Civil">Civil</option>
+                    <option value="Electrical">Electrical</option>
+                    <option value="Chemical">Chemical</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <select id="designation" name="designation" required>
+                    <option value="" disabled selected>Select Designation</option>
+                    <option value="Professor">Professor</option>
+                    <option value="Associate Professor">Associate Professor</option>
+                    <option value="Assistant Professor">Assistant Professor</option>
+                    <option value="Lecturer">Lecturer</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit">Sign Up</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('signup-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const profilePhoto = document.getElementById('profile-photo').files[0];
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const profilePhotoData = e.target.result;
+                localStorage.setItem('userName', name);
+                localStorage.setItem('profilePhoto', profilePhotoData);
+                window.location.href = 'index.html'; // Redirect to display page
+            };
+            reader.readAsDataURL(profilePhoto);
+        });
+    </script>
+</body>
+</html>

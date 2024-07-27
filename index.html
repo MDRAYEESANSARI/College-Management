@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attendance Management</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap"
+    />
+    <link rel="icon" type="image/png" href="fevicon.png" />
+    <style>
+      /* Basic CSS for the date display */
+      .date-display {
+        font-size: 16px;
+        font-weight: bold;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <nav>
+      <div class="img"><img src="logo.png" alt="logo" /></div>
+      <!-- <div class="search">
+        <i class="fa-solid fa-bars"></i>
+        <input type="text" placeholder="Search" />
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div> -->
+      <div class="profile">
+        <div class="nav-date">
+          <input type="date" id="date-picker" name="nav-date" />
+        </div>
+        <a href="notification.html">
+        <i class="fa-regular fa-bell fa-shake"></i></a>
+        <div class="person-details">
+          <div>
+            <img
+              id="nav-profile-pic"
+              src="profile logo.jpg"
+              alt="Profile Picture"
+            />
+          </div>
+          <div id="faculty">
+            <p id="nav-profile-name">Faculty Name</p>
+            <p id="nav-phone">27300122122</p>
+            <!-- Added id for phone number -->
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="main-content">
+      <!-- panel starts here -->
+      <div class="main">
+        <div class="panel">
+          <div class="panel-item">
+            <p id="panel-head">MENU</p>
+            <div class="list">
+              <ul>
+                <li>
+                  <a href="index.html">ATTENDANCE</a>
+                  <a href="students.html">STUDENTS</a>
+                  <a href="#">ASSIGMENTS</a>
+                  <a href="#">EVENTS</a>
+                  <a href="#">LEAVE MANAGEMENT</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="bottom-profile">
+            <p id="panel-head">ACCOUNT</p>
+            <div class="bottom-profile-item">
+              <div class="bottom-profile-option">
+                <i class="fa-regular fa-user"></i>
+                <a style="text-decoration: none;" href="profile.html">PROFILE</a>
+              </div>
+              <div class="bottom-profile-option">
+                <i class="fa-solid fa-headset"></i>
+                <a
+                  style="text-decoration: none"
+                  href="https://wa.me/919835633891?text=Hello,%20I%20found%20your%20contact%20information%20from%20AttendEase"
+                  >Contact us on WhatsApp</a
+                >
+              </div>
+              <div class="bottom-profile-option">
+                <i
+                  class="fa-solid fa-right-from-bracket"
+                  style="color: #ff0000"
+                ></i>
+                <a style="text-decoration: none" href="login.html">Log Out</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="attendance-title">
+            <p>ATTENDANCE</p>
+
+            <form>
+              <select id="section" name="section" required>
+                <option value="" disabled selected>SELECT DEPARTMENT</option>
+                <option value="CSE">CSE</option>
+                <option value="AIML">AI ML</option>
+                <option value="DS">DS</option>
+              </select>
+            </form>
+
+            <form>
+              <select id="subject" name="subject" required>
+                <option value="" disabled selected>SELECT SUBJECT</option>
+                <!-- Options will be dynamically added here -->
+              </select>
+            </form>
+            <!-- Display the current date -->
+            <!-- <div class="date-display" id="current-date"></div> -->
+          </div>
+          <!-- student name present absent -->
+
+          <div class="attendance-sheet">
+            <div id="mySelect">
+              <div id="x">
+                <div>
+                  <div class="attendance-sheet-title">
+                    <p>STUDENT NAME</p>
+                    <p>ROLL NO.</p>
+                    <p>PRESENT</p>
+                    <p>ABSENT</p>
+                  </div>
+                  <div id="container" class="container"></div>
+                </div>
+                <div class="total-present">
+                  <div class="present">
+                    <div class="present-no"><p id="present-count">0</p></div>
+                    <div class="present-p"><p>Present</p></div>
+                    <div class="present-data">
+                      <i class="fa-solid fa-chart-line"></i>
+                      <p id="present-increase">+3% increase than yesterday</p>
+                    </div>
+                  </div>
+                  <div class="present pre-col">
+                    <div class="absent-no"><p id="absent-count">0</p></div>
+                    <div class="absent-p"><p>Absent</p></div>
+                    <div class="absent-data">
+                      <i class="fa-solid fa-chart-line"></i>
+                      <p id="absent-decrease">-4% decrease than yesterday</p>
+                    </div>
+                  </div>
+                  <div class="attendance-submit-btn">
+                    <button type="submit">SUBMIT ATTENDANCE</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="content">
+        <div class="upper-content">
+          <div class="present-diagram">
+            <div class="container">
+              <div class="ui-widgets">
+                <div class="ui-values">0%</div>
+                <!-- Initial value will be updated by JavaScript -->
+              </div>
+            </div>
+
+            <div>
+              <h3>TOTAL PRESENT</h3>
+            </div>
+          </div>
+          <div class="department">
+            <div>
+              <div class="container">
+                <div class="ui-widgets-2">
+                  <div class="ui-values-2">
+                    <img src="Ellipse 6.png" alt="" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="department-details">
+              <p>DEPARTMENT</p>
+              <div id="cse">
+                <p>CSE</p>
+                <p>120</p>
+              </div>
+              <div id="aiml">
+                <p>AI ML</p>
+                <p>120</p>
+              </div>
+              <div id="ds">
+                <p>DS</p>
+                <p>120</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chart"><canvas id="attendanceChart" width="400" height="200"></canvas></div>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+    <script src="chart.js"></script>
+  </body>
+</html>

@@ -1,0 +1,375 @@
+const defaultProfileImg = "Ellipse 6.png";
+
+// Get current date in YYYY-MM-DD format
+const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = ('0' + (today.getMonth() + 1)).slice(-2);
+    const day = ('0' + today.getDate()).slice(-2);
+    return `${year}-${month}-${day}`;
+};
+
+// Get the local storage key for a given section and date
+const getStorageKey = (section) => {
+    const currentDate = getCurrentDate();
+    return `${section}-${currentDate}`;
+};
+
+// Save attendance data for a given section and date
+const saveAttendanceData = (section, presentCount, absentCount, studentStatus) => {
+    const key = getStorageKey(section);
+    const data = { present: presentCount, absent: absentCount, studentStatus };
+    localStorage.setItem(key, JSON.stringify(data));
+};
+
+// Load attendance data for a given section and date
+const loadAttendanceData = (section) => {
+    const key = getStorageKey(section);
+    const data = localStorage.getItem(key);
+    return data ? JSON.parse(data) : { present: 0, absent: 0, studentStatus: {} };
+};
+
+// Update the UI with the current attendance data
+const updateAttendanceUI = (section) => {
+    const attendanceData = loadAttendanceData(section);
+    const presentCount = attendanceData.present;
+    const absentCount = attendanceData.absent;
+    const totalStudents = presentCount + absentCount;
+    const presentPercentage = totalStudents > 0 ? (presentCount / totalStudents * 100).toFixed(2) : 0;
+
+    document.getElementById('present-count').innerText = presentCount;
+    document.getElementById('absent-count').innerText = absentCount;
+    document.querySelector('.ui-values').innerText = `${presentPercentage}%`;
+
+    // Update the radio buttons based on saved studentStatus
+    const studentStatus = attendanceData.studentStatus;
+    Object.keys(studentStatus).forEach(id => {
+        const status = studentStatus[id];
+        const radioButton = document.getElementById(id);
+        if (radioButton) {
+            radioButton.checked = status;
+            // Update the color of the radio button based on its value
+            if (radioButton.value === "value1") {
+                radioButton.parentElement.classList.add('present');
+                radioButton.parentElement.classList.remove('absent');
+            } else if (radioButton.value === "value2") {
+                radioButton.parentElement.classList.add('absent');
+                radioButton.parentElement.classList.remove('present');
+            }
+        }
+    });
+};
+
+// Update the attendance counts and save to local storage
+const updateCounts = (section) => {
+    const presentCheckboxes = document.querySelectorAll('input[type="radio"][value="value1"]:checked');
+    const absentCheckboxes = document.querySelectorAll('input[type="radio"][value="value2"]:checked');
+
+    const presentCount = presentCheckboxes.length;
+    const absentCount = absentCheckboxes.length;
+
+    // Save the status of each radio button
+    const studentStatus = {};
+    document.querySelectorAll('input[type="radio"]').forEach(checkbox => {
+        studentStatus[checkbox.id] = checkbox.checked;
+    });
+
+    saveAttendanceData(section, presentCount, absentCount, studentStatus);
+    updateAttendanceUI(section);
+};
+
+// Fetch user data and initialize the attendance system
+const fetchUserData = async (section) => {
+    try {
+        let fileName;
+        switch (section) {
+            case 'cse': fileName = 'cse.json'; break;
+            case 'aiml': fileName = 'aiml.json'; break;
+            case 'ds': fileName = 'ds.json'; break;
+            default: fileName = '';
+        }
+
+        if (fileName) {
+            const response = await fetch(fileName);
+            const users = await response.json();
+            const container = document.getElementById("container");
+            container.innerHTML = '';
+
+            // Update the student count in the department details
+            updateStudentCount(section, users.length);
+
+            users.forEach((user, index) => {
+                const profileImg = user.profileImg || defaultProfileImg;
+                const userDiv = document.createElement("div");
+                userDiv.className = "colomn";
+                userDiv.innerHTML = `
+                    <img src="${profileImg}" alt="${user.name}'s Profile" />
+                    <p>${user.name}</p>
+                    <span class="roll-number">${user.rollNumber}</span>
+                    <input id="radio${section}-${index}-1" type="radio" name="example${index}" value="value1" class="present-radio" />
+                    <input id="radio${section}-${index}-2" type="radio" name="example${index}" value="value2" class="absent-radio" />
+                `;
+                container.appendChild(userDiv);
+            });
+
+            document.querySelectorAll('input[type="radio"]').forEach(checkbox => {
+                checkbox.addEventListener('change', () => updateCounts(section));
+            });
+
+            updateAttendanceUI(section);
+        }
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+    }
+};
+
+// Update student count in the department details
+const updateStudentCount = (section, count) => {
+    const departmentDiv = document.getElementById(section);
+    if (departmentDiv) {
+        const countElement = departmentDiv.querySelector('p:nth-of-type(2)');
+        if (countElement) {
+            countElement.innerText = count;
+        }
+    }
+};
+
+// Initialize the system on page load
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('current-date').innerText = `Date: ${getCurrentDate()}`;
+    const section = document.getElementById('section').value;
+    fetchUserData(section);
+});
+
+// Handle section change event
+document.getElementById('section').addEventListener('change', (event) => {
+    const selectedSection = event.target.value;
+    fetchUserData(selectedSection);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+html 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attendance Management</title>
+    <link rel="stylesheet" href="attendance.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap"
+    />
+    <style>
+      /* Basic CSS for the date display */
+      .date-display {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="img"><img src="logo.png" alt="logo" /></div>
+      <div class="search">
+        <i class="fa-solid fa-bars"></i>
+        <input type="text" placeholder="Search" />
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+      <div class="profile">
+        <i class="fa-solid fa-calendar-days"></i>
+        <i class="fa-regular fa-bell"></i>
+        <div class="person-details">
+          <div><img src="profile logo.jpg" alt="" /></div>
+          <div id="faculty">
+            <p>Faculty Name</p>
+            <p>27300122122</p>
+          </div>
+        </div>
+      </div>
+    </nav>
+<div class="main-content">
+    <!-- panel starts here -->
+    <div class="main">
+      <div class="panel">
+        <div class="panel-item">
+          <p id="panel-head">MENU</p>
+          <div class="list">
+            <ul>
+              <li>
+                <a href="#">ATTENDANCE</a>
+                <a href="index.html">DASHBOARD</a>
+                <a href="#">STUDENTS</a>
+                <a href="#">ASSIGMENTS</a>
+                <a href="#">EVENTS</a>
+                <a href="#">LEAVE MANAGEMENT</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bottom-profile">
+          <p id="panel-head">ACCOUNT</p>
+          <div class="bottom-profile-item">
+            <div class="bottom-profile-option">
+              <i class="fa-regular fa-user"></i>
+              <p>PROFILE</p>
+            </div>
+            <div class="bottom-profile-option">
+              <i class="fa-solid fa-headset"></i>
+              <a style="text-decoration: none;"
+                href="https://wa.me/919835633891?text=Hello,%20I%20found%20your%20contact%20information%20from%20AttendEase"
+                >Contact us on WhatsApp</a
+              >
+            </div> <div class="bottom-profile-option">
+              <i class="fa-solid fa-right-from-bracket" style="color: #ff0000;"></i>
+              <a style="text-decoration: none;" href="index.html">Log Out</a>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="attendance-title">
+          <p>ATTENDANCE</p>
+          
+           <form> <!-- form-1 -->
+            <select id="section" name="section" required>
+              <option value="" disabled selected>SELECT SUBJECT</option>
+              <option value="cse">CSE</option>
+              <option value="aiml">ai ml</option>
+              <option value="ds">DS</option>
+            </select>
+          </form>
+          <form> <!-- form-2 -->
+            <select id="section" name="section" required>
+              <option value="" disabled selected>SELECT SECTION</option>
+              <option value=""></option>
+         
+            </select>
+          </form>
+          <!-- Display the current date -->
+          <div class="date-display" id="current-date"></div>
+        </div>
+        <!-- student name present absent -->
+
+        <div class="attendance-sheet">
+          
+          <div>
+            <div id="x">
+              <div>
+            <div class="attendance-sheet-title">
+            <p>STUDENT NAME</p>
+            <p>ROLL NO.</p>
+            <p>PRESENT</p>
+            <p>ABSENT</p>
+          </div>
+                <div id="container" class="container"></div>
+              </div><div class="total-present">
+                <div class="present">
+                  <div class="present-no"><p id="present-count">0</p></div>
+                  <div class="present-p"><p>Present</p></div>
+                  <div class="present-data">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <p id="present-increase">+3% increase than yesterday</p>
+                  </div>
+                </div>
+                <div class="present pre-col">
+                  <div class="absent-no"><p id="absent-count">0</p></div>
+                  <div class="absent-p"><p>Absent</p></div>
+                  <div class="absent-data">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <p id="absent-decrease">-4% decrease than yesterday</p>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="content">
+        <div class="upper-content">
+          <div class="present-diagram">
+            <div class="container">
+              <div class="ui-widgets">
+                  <div class="ui-values">0%</div> <!-- Initial value will be updated by JavaScript -->
+              </div>
+          </div>
+          
+            <div>
+              <h3>TOTAL PRESENT</h3>
+            </div>
+          </div>
+          <div class="department">
+            <div>
+              <div class="container">
+                <div class="ui-widgets-2">
+                  <div class="ui-values-2">
+                    <img src="Ellipse 6.png" alt="" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="department-details">
+              <p>DEPARTMENT</p>
+              <div id="cse">
+                <p>CSE</p>
+                <p>120</p>
+              </div>
+              <div id="aiml">
+                <p>AI ML</p>
+                <p>120</p>
+              </div>
+              <div id="ds">
+                <p>DS</p>
+                <p>120</p>
+              </div>
+            </div>
+          </div>
+          
+          
+        <div class="chart">chart</div>
+      </div>
+
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

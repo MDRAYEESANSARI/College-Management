@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forgot Password</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap"
+    />
+  </head>
+  <body>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: "Kumbh Sans", sans-serif;
+        color: #6e6e6e;
+      }
+      #loginForm {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        align-items: center;
+        justify-content: center;
+      }
+
+      body {
+        background-color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 100vw;
+        height: 100vh;
+        gap: 4.375rem;
+      }
+      body img {
+        width: 50%;
+      }
+      .logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .main {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+      .main input {
+        width: 17.6875rem;
+        border-radius: 0.6875rem;
+        background-color: #ece6f0;
+        font-size: 1.25rem;
+        border: 1px solid #cca7e4;
+        padding: 0.75rem;
+      }
+      .main button {
+        cursor: pointer;
+        width: 11.25rem;
+        border-radius: 0.6875rem;
+        font-size: 19px;
+        border: 1px solid #cca7e4;
+        padding: 0.3125rem;
+        background-color: #ff3cac;
+        background-image: linear-gradient(
+          225deg,
+          #ff3cac 0%,
+          #784ba0 50%,
+          #2b86c5 100%
+        );
+        color: white;
+      }
+      .main p,
+      .new-user p a {
+        color: #007fff;
+        cursor: pointer;
+      }
+      #forgotPasswordForm {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+    <div class="logo">
+      <img src="logo.png" alt="AttendEase Logo" />
+    </div>
+    <div class="main">
+      <form id="forgotPasswordForm">
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Enter your email"
+          required
+        />
+        <button type="button" onclick="sendResetLink()">Send Reset Link</button>
+        <a style="color: #007fff;" href="login.html">Back to Login</a>
+      </form>
+    </div>
+    <script>
+      function sendResetLink() {
+        const form = document.getElementById("forgotPasswordForm");
+        if (form.checkValidity()) {
+          // Mock password reset functionality
+          alert("Password reset link has been sent to your email.");
+          // Redirect to login page or another page after successful password reset
+          window.location.href = "login.html";
+        } else {
+          // Show validation messages if needed
+          form.reportValidity();
+        }
+      }
+    </script>
+  </body>
+</html>

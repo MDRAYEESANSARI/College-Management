@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attendance Management</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap"
+    />
+    <link rel="icon" type="image/png" href="fevicon.png" />
+  </head>
+  <style>
+    .content {
+      width: 79vw;
+      height: 87vh;
+      background-color: #fef7ff;
+      margin: 5px;
+      border-radius: 15px;
+    }
+    
+  </style>
+  <body>
+    <nav>
+      <div class="img"><img src="logo.png" alt="logo" /></div>
+      <div class="profile">
+        <div class="person-details">
+          <div>
+            <img
+              id="nav-profile-pic"
+              src="profile logo.jpg"
+              alt="Profile Picture"
+            />
+          </div>
+          <div id="faculty">
+            <p id="nav-profile-name">Faculty Name</p>
+            <p id="nav-phone">27300122122</p>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="main-content">
+      <div class="main">
+        <div class="panel">
+          <div class="panel-item">
+            <p id="panel-head">MENU</p>
+            <div class="list">
+              <ul>
+                <li>
+                  <a style="font-weight: 200" href="index.html">ATTENDANCE</a>
+                  <a style="font-weight: 200" href="students.html">STUDENTS</a>
+                  <a href="#">ASSIGMENTS</a>
+                  <a href="#">EVENTS</a>
+                  <a href="#">LEAVE MANAGEMENT</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="bottom-profile">
+            <p id="panel-head">ACCOUNT</p>
+            <div class="bottom-profile-item">
+              <div class="bottom-profile-option">
+                <i class="fa-regular fa-user"></i>
+                <a style="text-decoration: none" href="profile.html">PROFILE</a>
+              </div>
+              <div class="bottom-profile-option">
+                <i class="fa-solid fa-headset"></i>
+                <a
+                  style="text-decoration: none"
+                  href="https://wa.me/919835633891?text=Hello,%20I%20found%20your%20contact%20information%20from%20AttendEase"
+                  >Contact us on WhatsApp</a
+                >
+              </div>
+              <div class="bottom-profile-option">
+                <i
+                  class="fa-solid fa-right-from-bracket fa-beat"
+                  style="color: #ff0000"
+                ></i>
+                <a style="text-decoration: none" href="login.html">Log Out</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content">
+          <div style="justify-content: center;" class="attendance-title">
+            <p>UPDATES</p>
+          </div>
+         
+        </div>
+      </div>
+    </div>
+    <script>window.onload = function () {
+        const userName = localStorage.getItem("userName");
+        const userPhone = localStorage.getItem("userPhone");
+        const profilePhoto = localStorage.getItem("profilePhoto");
+      
+        if (userName)
+          document.getElementById("nav-profile-name").textContent = userName;
+        if (userPhone) document.getElementById("nav-phone").textContent = userPhone; // Make sure you have an id of 'nav-phone' for the phone number
+        if (profilePhoto)
+          document.getElementById("nav-profile-pic").src = profilePhoto;
+      };</script>
+  </body>
+</html>

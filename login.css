@@ -1,0 +1,68 @@
+*{
+  margin: 0;
+  padding: 0;
+  font-family: "Kumbh Sans", sans-serif;
+  color: #6e6e6e;
+  
+}
+#loginForm{
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
+  justify-content: center;
+}
+
+body {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  gap: 4.375rem;
+}
+body img {
+  width: 50%;
+}
+.logo{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.main input {
+  width: 17.6875rem;
+  border-radius: .6875rem;
+  background-color: #ece6f0;
+  font-size: 1.25rem;
+  border: 1px solid #cca7e4;
+  padding: .75rem;
+}
+.main button {
+  cursor: pointer;
+  width: 6.25rem;
+  border-radius: .6875rem;
+  font-size: 1.25rem;
+  border: 1px solid #cca7e4;
+  padding: .3125rem;
+  background-color: #ff3cac;
+  background-image: linear-gradient(
+    225deg,
+    #ff3cac 0%,
+    #784ba0 50%,
+    #2b86c5 100%
+  );
+  color: white;
+}
+.main p, .new-user p a{
+  color:  #007FFF;
+  cursor: pointer;
+}

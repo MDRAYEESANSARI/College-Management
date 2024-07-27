@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f7f9;
+        }
+        .profile-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .profile-container img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #007bff;
+            margin-bottom: 15px;
+        }
+        .profile-container h1 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <img id="profile-pic" src="" alt="Profile Picture">
+        <h1 id="profile-name">Name</h1>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const name = localStorage.getItem('userName');
+            const profilePic = localStorage.getItem('profilePic');
+
+            if (name && profilePic) {
+                document.getElementById('profile-name').textContent = name;
+                document.getElementById('profile-pic').src = profilePic;
+            } else {
+                alert('No user data found. Please enter your details first.');
+                window.location.href = 'input.html'; // Redirect to input page if no data
+            }
+        });
+    </script>
+</body>
+</html>
